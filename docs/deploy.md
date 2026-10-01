@@ -54,6 +54,11 @@ pnpm payload migrate:create initial   # once, to establish the baseline
 pnpm payload migrate                  # against the production DATABASE_URL
 ```
 
+> **Generate migrations with `R2_BUCKET` set.** The storage plugin adds a column to the `media`
+> table, so a migration generated without it produces a schema that the running app rejects with
+> `column "_objectkey" does not exist`. Generate against an *empty* database — against an
+> up-to-date one, Payload diffs to nothing and writes an empty migration.
+
 Run migrations as a deploy step, before the new build starts serving traffic. Commit
 the generated files in `src/migrations`.
 
@@ -75,6 +80,15 @@ R2 has no egress fees, which matters for a site that is mostly photographs.
 | `R2_SECRET_ACCESS_KEY` | from the API token |
 | `R2_ENDPOINT` | `https://<accountId>.r2.cloudflarestorage.com` |
 | `R2_PUBLIC_URL` | `https://media.meliora.uk` |
+
+> **`R2_ENDPOINT` must not include the bucket name.** The S3 client appends the bucket itself,
+> so an endpoint ending in `/meliora-media` produces requests to
+> `…/meliora-media/meliora-media/<key>`. The failure surfaces as `NoSuchKey`, which reads like a
+> credentials or bucket problem rather than a malformed URL. Copy just the endpoint from the R2
+> overview page.
+
+> **On the API token:** choose **Object Read & Write**, scoped to the bucket. The Secret Access Key
+> is shown once at creation and cannot be retrieved later — if it's lost, make a new token.
 
 `R2_BUCKET` is the switch: leave it unset and media stays on local disk, as in
 development. Setting it turns the adapter on.
