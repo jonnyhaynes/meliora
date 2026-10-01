@@ -102,7 +102,7 @@ R2 has no egress fees, which matters for a site that is mostly photographs.
 > ```
 >
 > ```bash
-> set -a && . ./.env.production.local && set +a   # or any env with R2_BUCKET
+> set -a && . ./.env.production.credentials && set +a   # or any env with R2_BUCKET
 > pnpm generate:importmap
 > ```
 >
@@ -157,6 +157,23 @@ terms do not permit storing review content for more than 30 days.
 ---
 
 ## 6. Environment variables
+
+### Keeping production credentials on your machine
+
+Running migrations or seeding needs the real credentials locally. Keep them in a
+gitignored file:
+
+```bash
+# .env.production.credentials
+DATABASE_URL="postgresql://…-pooler.….neon.tech/neondb?sslmode=require"
+R2_BUCKET="…"
+# …
+```
+
+> **Do not call this file `.env.production.local`.** Next.js loads that filename automatically in
+> production mode, which means `pnpm start` — or `pnpm build` — run on your machine would read and
+> **write to the live database and bucket** without any indication. `.env.production.credentials`
+> is invisible to Next; load it explicitly, as the commands above do.
 
 Set all of these in the hosting dashboard:
 
