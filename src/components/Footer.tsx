@@ -3,6 +3,7 @@ import Link from 'next/link'
 import React from 'react'
 
 import { Container } from '@/components/Container'
+import { YorkshireRose } from '@/components/YorkshireRose'
 import { mediaDimensions, mediaUrl } from '@/lib/media'
 import type { Navigation, SiteSetting } from '@/payload-types'
 
@@ -101,11 +102,31 @@ export const Footer = ({ navigation, settings }: FooterProps) => {
           </div>
         </div>
 
-        <div className="mt-14 flex flex-col gap-6 border-t border-hairline pt-8 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-xs text-ink-faint">
-            © {new Date().getFullYear()} Meliora KBB Ltd t/a Meliora Kitchens, Bedrooms &
-            Bathrooms.
-          </p>
+        <div className="mt-14 flex flex-col gap-8 border-t border-hairline pt-8 sm:flex-row sm:items-start sm:justify-between sm:gap-6">
+          <div>
+            <p className="text-xs text-ink-faint">
+              © {new Date().getFullYear()} Meliora KBB Ltd t/a Meliora Kitchens, Bedrooms &
+              Bathrooms.
+            </p>
+
+            {/* House credit, sitting under the copyright rather than centred. The
+                rose goes between the two halves of the line, which is how it
+                reads on the other Colouring Code sites. */}
+            <p className="mt-4 flex items-center text-xs text-ink-faint">
+              Forged in Yorkshire
+              <YorkshireRose className="mx-1 inline-block h-4 w-4 -translate-y-px align-middle" />
+              by{' '}
+              <a
+                className="text-ink-muted underline decoration-hairline underline-offset-4 transition-colors hover:text-brass"
+                href="https://www.colouringcode.com"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                Colouring Code
+              </a>
+            </p>
+          </div>
+
           <ul className="flex gap-6">
             {socialLinks.map((link) => (
               <li key={link.label}>
