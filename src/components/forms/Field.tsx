@@ -96,10 +96,17 @@ export const Select = ({ name, error, required, options, ...rest }: SelectProps)
 /**
  * The honeypot. Hidden from sight and from assistive technology, and skipped by
  * keyboard navigation — so only an automated submission will ever fill it in.
+ *
+ * The name is deliberately meaningless. An earlier version called it `website`,
+ * which browser autofill and password managers happily populate — on the real
+ * site that silently discarded genuine enquiries: the field tripped the spam
+ * check, the API returned success without storing anything, and the visitor saw
+ * the thank-you page. `autocomplete="off"` does not reliably prevent this, so
+ * the field name must not look like anything worth autofilling.
  */
 export const Honeypot = () => (
   <div aria-hidden="true" className="absolute h-0 w-0 overflow-hidden" style={{ left: '-9999px' }}>
-    <label htmlFor="website">Leave this field empty</label>
-    <input autoComplete="off" id="website" name="website" tabIndex={-1} type="text" />
+    <label htmlFor="_hp">Leave this field empty</label>
+    <input autoComplete="off" id="_hp" name="_hp" tabIndex={-1} type="text" />
   </div>
 )

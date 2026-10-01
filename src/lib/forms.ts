@@ -54,7 +54,10 @@ export const enquirySchema = z.object({
   // Honeypot. Deliberately unvalidated: a tripped honeypot must produce the
   // same response a successful submission does, so a bot learns nothing from
   // the difference. The handler checks it and silently discards the request.
-  website: z.string().optional(),
+  //
+  // Named `_hp` rather than something tempting like `website`, because autofill
+  // fills those and would discard real enquiries.
+  _hp: z.string().optional(),
 })
 
 export const bookingSchema = z.object({
@@ -73,7 +76,8 @@ export const bookingSchema = z.object({
     .optional()
     .or(z.literal('')),
   message: z.string().trim().max(5000).optional().or(z.literal('')),
-  website: z.string().optional(),
+  // See the note on the enquiry schema — the name matters.
+  _hp: z.string().optional(),
 })
 
 export type EnquiryInput = z.infer<typeof enquirySchema>

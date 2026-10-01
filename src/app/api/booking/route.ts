@@ -35,7 +35,7 @@ export async function POST(request: Request) {
 
   const data = parsed.data
 
-  if (data.website) return NextResponse.json({ ok: true })
+  if (data._hp) return NextResponse.json({ ok: true })
 
   const payload = await getPayloadClient()
 

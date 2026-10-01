@@ -40,7 +40,7 @@ export async function POST(request: Request) {
   const data = parsed.data
 
   // Honeypot tripped: report success so the bot learns nothing, but store nothing.
-  if (data.website) return NextResponse.json({ ok: true })
+  if (data._hp) return NextResponse.json({ ok: true })
 
   const payload = await getPayloadClient()
 
