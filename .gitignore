@@ -51,3 +51,8 @@ node_modules/
 
 # Local agent tooling — not part of the project
 /.commandcode/
+
+# Added by `vercel link`. The negation matters: without it, deleting and
+# re-adding .env.example would leave it silently untracked.
+.env*
+!.env.example
