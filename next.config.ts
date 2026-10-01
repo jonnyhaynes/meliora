@@ -32,6 +32,22 @@ const remotePatterns: NonNullable<NextConfig['images']>['remotePatterns'] = [
 const isProduction = process.env.NODE_ENV === 'production'
 
 /**
+ * Media on object storage is served from a different origin, so the policy has
+ * to name it explicitly. Without this, `img-src 'self'` silently blocks every
+ * photograph once R2 is switched on — the page renders, the images do not.
+ */
+const mediaOrigins = [process.env.R2_PUBLIC_URL, process.env.NEXT_PUBLIC_SERVER_URL]
+  .filter((value): value is string => Boolean(value))
+  .map((value) => {
+    try {
+      return new URL(value).origin
+    } catch {
+      return null
+    }
+  })
+  .filter((value): value is string => Boolean(value))
+
+/**
  * The public site's content security policy.
  *
  * `'unsafe-inline'` is required for scripts because Next injects its hydration
@@ -44,13 +60,14 @@ const isProduction = process.env.NODE_ENV === 'production'
  */
 const contentSecurityPolicy = [
   "default-src 'self'",
-  "img-src 'self' data: blob:",
+  `img-src 'self' data: blob: ${mediaOrigins.join(' ')}`.trim(),
+  `media-src 'self' ${mediaOrigins.join(' ')}`.trim(),
   "font-src 'self' data:",
   "style-src 'self' 'unsafe-inline'",
   `script-src 'self' 'unsafe-inline'${isProduction ? '' : " 'unsafe-eval'"}`,
   // The showroom page embeds a Google map.
   'frame-src https://www.google.com',
-  `connect-src 'self'${isProduction ? '' : ' ws: http: https:'}`,
+  `connect-src 'self' ${mediaOrigins.join(' ')}${isProduction ? '' : ' ws: http: https:'}`.trim(),
   "frame-ancestors 'self'",
   "base-uri 'self'",
   "form-action 'self'",
