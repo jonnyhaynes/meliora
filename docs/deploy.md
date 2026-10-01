@@ -119,6 +119,15 @@ Next's image optimiser.
 
 ## 4. Email
 
+> ### ⚠️ Without SMTP, enquiries are stored but nobody is told about them
+>
+> Payload falls back to `ethereal.email` when `SMTP_HOST` is unset — a test service that sends
+> nothing. The enquiry is still written to the database, so no lead is lost, but **no notification
+> email is delivered**. The owner will only see it by opening the admin panel.
+>
+> This is the state the prototype is currently in. Verify it before anyone relies on the form:
+> submit an enquiry and confirm the email arrives, rather than assuming.
+
 Without `SMTP_HOST`, development uses ethereal.email and sends nothing real.
 
 In production, set the SMTP variables (any provider — Fastmail, Google Workspace,
@@ -214,6 +223,13 @@ Work against a staging URL while the Wix site stays up.
 
 ### After launch
 
+- **Watch for intermittent database errors on cold starts.** Neon's free tier suspends an idle
+  database, and the first connection after a suspend can be reset mid-TLS-handshake:
+  `Client network socket disconnected before secure TLS connection was established` (`ECONNRESET`),
+  surfacing as a `Failed query` and an error page. It is transient — a retry usually succeeds —
+  but it is visible and it is the most likely cause of a "the site broke for a second" report.
+  Options, cheapest first: keep the database warm by pinging the site on a schedule, move Neon to a
+  plan without scale-to-zero, or add a retry around the query.
 - Watch Search Console for 404s from the old site and add redirects.
 - Request a review from a recent client — the reviews feed is the strongest trust
   signal on the page.
