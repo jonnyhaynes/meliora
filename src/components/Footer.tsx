@@ -111,12 +111,15 @@ export const Footer = ({ navigation, settings }: FooterProps) => {
 
             {/* House credit, sitting under the copyright rather than centred. The
                 rose goes between the two halves of the line, which is how it
-                reads on the other Colouring Code sites. */}
-            <p className="mt-4 flex items-center text-xs text-ink-faint">
+                reads on the other Colouring Code sites.
+
+                Note this is a plain block, not a flex row: flexbox drops
+                whitespace-only text nodes, so the space between "by" and the
+                link would silently vanish. */}
+            <p className="mt-4 text-xs text-ink-faint">
               Forged in Yorkshire
               <YorkshireRose className="mx-1 inline-block h-4 w-4 -translate-y-px align-middle" />
-              by{' '}
-              <a
+              by <a
                 className="text-ink-muted underline decoration-hairline underline-offset-4 transition-colors hover:text-brass"
                 href="https://www.colouringcode.com"
                 rel="noopener noreferrer"
