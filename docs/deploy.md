@@ -90,6 +90,25 @@ R2 has no egress fees, which matters for a site that is mostly photographs.
 > **On the API token:** choose **Object Read & Write**, scoped to the bucket. The Secret Access Key
 > is shown once at creation and cannot be retrieved later — if it's lost, make a new token.
 
+> **Regenerate the import map with `R2_BUCKET` set.** The storage plugin registers a client
+> component (`S3ClientUploadHandler`) that Payload's admin can only resolve through
+> `src/app/(payload)/admin/importMap.js`. If that file was generated while the plugin was inactive,
+> the admin renders as a **completely blank page** — no error in the browser, only in the server
+> logs:
+>
+> ```
+> getFromImportMap: PayloadComponent not found in importMap
+>   key: '@payloadcms/storage-s3/client#S3ClientUploadHandler'
+> ```
+>
+> ```bash
+> set -a && . ./.env.production.local && set +a   # or any env with R2_BUCKET
+> pnpm generate:importmap
+> ```
+>
+> The same applies to any plugin that ships client components, so re-run this whenever the plugin
+> configuration changes.
+
 `R2_BUCKET` is the switch: leave it unset and media stays on local disk, as in
 development. Setting it turns the adapter on.
 
