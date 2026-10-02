@@ -76,96 +76,105 @@ export const Header = ({
   const solid = !overHero
 
   return (
-    <header
-      className={[
-        'fixed inset-x-0 top-0 z-50 transition-colors duration-500',
-        solid ? 'bg-bone/95 backdrop-blur-sm' : 'bg-transparent',
-      ].join(' ')}
-      data-scrolled={scrolled}
-    >
-      <div
+    <>
+      <header
         className={[
-          'mx-auto flex max-w-[1800px] items-center justify-between gap-6 px-6 transition-all duration-500 sm:px-8 lg:px-12',
-          solid ? 'py-3.5' : 'py-5 lg:py-7',
+          'fixed inset-x-0 top-0 z-50 transition-colors duration-500',
+          solid ? 'bg-bone/95 backdrop-blur-sm' : 'bg-transparent',
         ].join(' ')}
+        data-scrolled={scrolled}
       >
-        <Link className="group flex items-center" href="/">
-          {logoUrl ? (
-            <Image
-              alt={businessName}
-              className={[
-                'h-8 w-auto transition-[filter] duration-500 lg:h-9',
-                // Over the hero the header sits on a dark photograph and the
-                // logo is navy, so it is flattened to white. Everywhere else it
-                // keeps its brand colours.
-                overHero ? 'brightness-0 invert' : '',
-              ].join(' ')}
-              height={logoHeight}
-              priority
-              src={logoUrl}
-              width={logoWidth}
-            />
-          ) : (
-            <span className={`font-display text-2xl leading-none tracking-tight ${tone}`}>
-              Meliora
-            </span>
-          )}
-        </Link>
-
-        <nav aria-label="Primary" className={`hidden items-center gap-7 lg:flex ${tone}`}>
-          {items.map((item) => (
-            <Link
-              className="text-[0.8125rem] font-medium tracking-wide transition-opacity hover:opacity-60"
-              href={item.url}
-              key={item.url}
-            >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
-
-        <div className="flex items-center gap-4">
-          <a
-            className={`hidden text-[0.8125rem] font-medium tracking-wide transition-opacity hover:opacity-60 xl:block ${tone}`}
-            href={`tel:${phone.replace(/\s/g, '')}`}
-          >
-            {phone}
-          </a>
-
-          <Link
-            className={[
-              'hidden border px-4 py-2.5 text-[0.75rem] font-medium tracking-[0.08em] uppercase transition-colors sm:block',
-              overHero
-                ? 'border-white/50 text-white hover:bg-white hover:text-ink'
-                : 'border-ink text-ink hover:bg-ink hover:text-bone',
-            ].join(' ')}
-            href="/book-an-appointment"
-          >
-            Book a visit
+        <div
+          className={[
+            'mx-auto flex max-w-[1800px] items-center justify-between gap-6 px-6 transition-all duration-500 sm:px-8 lg:px-12',
+            solid ? 'py-3.5' : 'py-5 lg:py-7',
+          ].join(' ')}
+        >
+          <Link className="group flex items-center" href="/">
+            {logoUrl ? (
+              <Image
+                alt={businessName}
+                className={[
+                  'h-8 w-auto transition-[filter] duration-500 lg:h-9',
+                  // Over the hero the header sits on a dark photograph and the
+                  // logo is navy, so it is flattened to white. Everywhere else it
+                  // keeps its brand colours.
+                  overHero ? 'brightness-0 invert' : '',
+                ].join(' ')}
+                height={logoHeight}
+                priority
+                src={logoUrl}
+                width={logoWidth}
+              />
+            ) : (
+              <span className={`font-display text-2xl leading-none tracking-tight ${tone}`}>
+                Meliora
+              </span>
+            )}
           </Link>
 
-          <button
-            aria-controls="mobile-menu"
-            aria-expanded={menuOpen}
-            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-            className={`flex h-10 w-10 flex-col items-center justify-center gap-[5px] lg:hidden ${tone}`}
-            onClick={() => setMenuOpen((open) => !open)}
-            type="button"
-          >
-            <span
-              className={`block h-px w-6 bg-current transition-transform duration-300 ${menuOpen ? 'translate-y-[3px] rotate-45' : ''}`}
-            />
-            <span
-              className={`block h-px w-6 bg-current transition-transform duration-300 ${menuOpen ? '-translate-y-[3px] -rotate-45' : ''}`}
-            />
-          </button>
-        </div>
-      </div>
+          <nav aria-label="Primary" className={`hidden items-center gap-7 lg:flex ${tone}`}>
+            {items.map((item) => (
+              <Link
+                className="text-[0.8125rem] font-medium tracking-wide transition-opacity hover:opacity-60"
+                href={item.url}
+                key={item.url}
+              >
+                {item.label}
+              </Link>
+            ))}
+          </nav>
 
-      {/* Mobile menu */}
+          <div className="flex items-center gap-4">
+            <a
+              className={`hidden text-[0.8125rem] font-medium tracking-wide transition-opacity hover:opacity-60 xl:block ${tone}`}
+              href={`tel:${phone.replace(/\s/g, '')}`}
+            >
+              {phone}
+            </a>
+
+            <Link
+              className={[
+                'hidden border px-4 py-2.5 text-[0.75rem] font-medium tracking-[0.08em] uppercase transition-colors sm:block',
+                overHero
+                  ? 'border-white/50 text-white hover:bg-white hover:text-ink'
+                  : 'border-ink text-ink hover:bg-ink hover:text-bone',
+              ].join(' ')}
+              href="/book-an-appointment"
+            >
+              Book a visit
+            </Link>
+
+            <button
+              aria-controls="mobile-menu"
+              aria-expanded={menuOpen}
+              aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+              className={`flex h-10 w-10 flex-col items-center justify-center gap-[5px] lg:hidden ${tone}`}
+              onClick={() => setMenuOpen((open) => !open)}
+              type="button"
+            >
+              <span
+                className={`block h-px w-6 bg-current transition-transform duration-300 ${menuOpen ? 'translate-y-[3px] rotate-45' : ''}`}
+              />
+              <span
+                className={`block h-px w-6 bg-current transition-transform duration-300 ${menuOpen ? '-translate-y-[3px] -rotate-45' : ''}`}
+              />
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/*
+        The overlay is a sibling of the header, not a child. The header applies
+        backdrop-blur while solid, and that makes it the containing block for
+        fixed descendants — nested inside, `inset-0` would be measured against
+        the header bar rather than the viewport, so the panel collapsed to the
+        bar's height and the page showed through it. As a sibling it sits at
+        z-40, below the header's z-50, so the bar and its close button stay on top.
+      */}
       <div
         className={[
-          'fixed inset-0 top-0 z-40 bg-bone transition-opacity duration-300 lg:hidden',
+          'fixed inset-0 z-40 bg-bone transition-opacity duration-300 lg:hidden',
           menuOpen ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0',
         ].join(' ')}
         id="mobile-menu"
@@ -183,7 +192,10 @@ export const Header = ({
               {item.label}
             </Link>
           ))}
-          <Link className="mt-6 text-sm tracking-[0.12em] text-brass uppercase" href="/book-an-appointment">
+          <Link
+            className="mt-6 text-sm tracking-[0.12em] text-brass uppercase"
+            href="/book-an-appointment"
+          >
             Book a showroom visit
           </Link>
           <a className="mt-2 text-sm text-ink-muted" href={`tel:${phone.replace(/\s/g, '')}`}>
@@ -191,6 +203,6 @@ export const Header = ({
           </a>
         </nav>
       </div>
-    </header>
+    </>
   )
 }
